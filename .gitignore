@@ -19,3 +19,9 @@ dist/
 
 # Other
 *.DS_Store
+
+# Data
+data/
+
+# Environment
+env/

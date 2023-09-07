@@ -91,3 +91,10 @@ If you find this method and/or code useful, please consider citing
   year={2023},
 }
 ```
+
+
+# Guandao's Note:
+- Sep 6, 2023, 14:45. Debugging MPI loading.
+    If the `cm_train.py` takes forever, it should comes from loading `from mpi4py import MPI`. This can be fixed by resintalling mpi4py using `conda install -c oncda-forge mpi4py`. LINK: https://stackoverflow.com/questions/55882398/mpi4py-mpi-init-hangs-indefinitely
+
+

@@ -364,6 +364,7 @@ class CMTrainLoop(TrainLoop):
             or self.global_step < self.total_training_steps
         ):
             batch, cond = next(self.data)
+            logger.log("Step %d..." % self.global_step)
             self.run_step(batch, cond)
             saved = False
             if (
