@@ -27,7 +27,16 @@ def setup_dist():
     """
     if dist.is_initialized():
         return
-    os.environ["CUDA_VISIBLE_DEVICES"] = f"{MPI.COMM_WORLD.Get_rank() % GPUS_PER_NODE}"
+
+    # TODO(guandao) make this usable for few GPUs
+    if GPUS_PER_NODE > 1:
+        if "CUDA_VISIBLE_DEVICES" in os.environ:
+            gpus = [int(idx) for idx in os.environ["CUDA_VISIBLE_DEVICES"].split(",")]
+            gpuid = gpus[MPI.COMM_WORLD.Get_rank() % GPUS_PER_NODE]
+            print("Rank: %d GPU: %d" % (MPI.COMM_WORLD.Get_rank(), gpuid))
+            os.environ["CUDA_VISIBLE_DEVICES"] = "%d" % gpuid
+        else:
+            os.environ["CUDA_VISIBLE_DEVICES"] = f"{MPI.COMM_WORLD.Get_rank() % GPUS_PER_NODE}"
 
     comm = MPI.COMM_WORLD
     backend = "gloo" if not th.cuda.is_available() else "nccl"
