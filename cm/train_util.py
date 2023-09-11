@@ -1,4 +1,5 @@
 import copy
+import time
 import functools
 import os
 
@@ -358,13 +359,18 @@ class CMTrainLoop(TrainLoop):
 
     def run_loop(self):
         saved = False
+        timer_start = time.time()
         while (
             not self.lr_anneal_steps
             or self.step < self.lr_anneal_steps
             or self.global_step < self.total_training_steps
         ):
             batch, cond = next(self.data)
-            logger.log("Step %d..." % self.global_step)
+
+            duration = time.time() - timer_start
+            logger.log("Step %d (%s s)..." % (self.global_step, duration))
+            timer_start = time.time()
+
             self.run_step(batch, cond)
             saved = False
             if (
