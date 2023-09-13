@@ -8,6 +8,7 @@ OMPI_MCA_opal_cuda_support=true CUDA_VISIBLE_DEVICES="4,5,6,7" GPUS_PER_NODE=4 \
     --training_mode consistency_training \
     --target_ema_mode adaptive \
     --start_ema 0.95 \
+    --ema_rate 0.999,0.9999,0.9999432189950708 \
     --scale_mode progressive \
     --start_scales 2 --end_scales 200 \
     --total_training_steps 100000 \
@@ -18,7 +19,6 @@ OMPI_MCA_opal_cuda_support=true CUDA_VISIBLE_DEVICES="4,5,6,7" GPUS_PER_NODE=4 \
     --use_scale_shift_norm True \
     --dropout 0.0 \
     --teacher_dropout 0.1 \
-    --ema_rate 0.999,0.9999,0.9999432189950708 \
     --microbatch 64 \
     --global_batch_size 256 \
     --image_size 128 \
@@ -33,6 +33,7 @@ OMPI_MCA_opal_cuda_support=true CUDA_VISIBLE_DEVICES="4,5,6,7" GPUS_PER_NODE=4 \
     --weight_schedule uniform \
     --log_interval 100 \
     --save_interval 5000 \
+    --result_dir results/afhq-v2-128-uncond \
     --data_dir /home/guandao/stargan-v2/afhq-v2-128
 
 # # AFHQ-256x256
