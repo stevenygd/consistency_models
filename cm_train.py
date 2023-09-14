@@ -35,7 +35,8 @@ CUDA_VISIBLE_DEVICES=0 GPUS_PER_NODE=1 python cm_train.py \
 import argparse
 
 from cm import dist_util, logger
-from cm.image_datasets import load_data
+from cm.image_datasets import load_data_image
+from cm.triplane_datasets import load_data_triplane
 from cm.resample import create_named_schedule_sampler
 from cm.script_util import (
     model_and_diffusion_defaults,
@@ -95,14 +96,24 @@ def main():
             )
     else:
         batch_size = args.batch_size
-
-    data = load_data(
-        data_dir=args.data_dir,
-        batch_size=batch_size,
-        image_size=args.image_size,
-        class_cond=args.class_cond,
-        stats_dir=args.stats_dir
-    )
+    
+    if args.data_type == "image":
+        data = load_data_image(
+            data_dir=args.data_dir,
+            batch_size=batch_size,
+            image_size=args.image_size,
+            class_cond=args.class_cond,
+        )
+    elif args.data_type == "triplane":
+        data = load_data_triplane(
+            data_dir=args.data_dir,
+            batch_size=batch_size,
+            image_size=args.image_size,
+            class_cond=args.class_cond,
+            stats_dir=args.stats_dir,
+        )
+    else:
+        raise ValueError
 
     if len(args.teacher_model_path) > 0:  # path to the teacher score model.
         logger.log(f"loading the teacher model from {args.teacher_model_path}")
@@ -195,6 +206,7 @@ def create_argparser():
         use_fp16=False,
         fp16_scale_growth=1e-3,
         stats_dir=None,
+        data_type="image", # image/triplane
     )
     defaults.update(model_and_diffusion_defaults())
     defaults.update(cm_train_defaults())

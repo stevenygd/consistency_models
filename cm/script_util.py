@@ -47,6 +47,8 @@ def model_and_diffusion_defaults():
         use_new_attention_order=False,
         learn_sigma=False,
         weight_schedule="karras",
+        in_channels=None,
+        out_channels=None,
     )
     return res
 
@@ -72,6 +74,8 @@ def create_model_and_diffusion(
     sigma_min=0.002,
     sigma_max=80.0,
     distillation=False,
+    in_channels=None,
+    out_channels=None
 ):
     model = create_model(
         image_size,
@@ -90,6 +94,8 @@ def create_model_and_diffusion(
         resblock_updown=resblock_updown,
         use_fp16=use_fp16,
         use_new_attention_order=use_new_attention_order,
+        in_channels=in_channels,
+        out_channels=out_channels
     )
     diffusion = KarrasDenoiser(
         sigma_data=0.5,
@@ -118,7 +124,15 @@ def create_model(
     resblock_updown=False,
     use_fp16=False,
     use_new_attention_order=False,
+    in_channels=None,
+    out_channels=None,
 ):
+    if in_channels is None:
+        in_channels = 3
+    in_channels = int(in_channels)
+    if out_channels is None:
+        out_channels = (3 if not learn_sigma else 6)
+    out_channels = int(out_channels)
     if channel_mult == "":
         if image_size == 512:
             channel_mult = (0.5, 1, 1, 2, 2, 4, 4)
@@ -139,9 +153,11 @@ def create_model(
 
     return UNetModel(
         image_size=image_size,
-        in_channels=96,
+        # in_channels=3,
+        in_channels=in_channels,
         model_channels=num_channels,
-        out_channels=96,
+        # out_channels=(3 if not learn_sigma else 6),
+        out_channels=out_channels,
         num_res_blocks=num_res_blocks,
         attention_resolutions=tuple(attention_ds),
         dropout=dropout,
