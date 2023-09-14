@@ -40,7 +40,7 @@ class KarrasDenoiser:
         rho=7.0,
         weight_schedule="karras",
         distillation=False,
-        loss_norm="lpips",
+        loss_norm="l2",
     ):
         self.sigma_data = sigma_data
         self.sigma_max = sigma_max

@@ -101,6 +101,7 @@ def main():
         batch_size=batch_size,
         image_size=args.image_size,
         class_cond=args.class_cond,
+        stats_dir=args.stats_dir
     )
 
     if len(args.teacher_model_path) > 0:  # path to the teacher score model.
@@ -193,6 +194,7 @@ def create_argparser():
         resume_checkpoint="",
         use_fp16=False,
         fp16_scale_growth=1e-3,
+        stats_dir=None,
     )
     defaults.update(model_and_diffusion_defaults())
     defaults.update(cm_train_defaults())
