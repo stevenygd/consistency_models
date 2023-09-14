@@ -110,6 +110,7 @@ def main():
             batch_size=batch_size,
             image_size=args.image_size,
             class_cond=args.class_cond,
+            stats_dir=args.stats_dir,
         )
     else:
         raise ValueError
@@ -204,6 +205,7 @@ def create_argparser():
         resume_checkpoint="",
         use_fp16=False,
         fp16_scale_growth=1e-3,
+        stats_dir=None,
         data_type="image", # image/triplane
     )
     defaults.update(model_and_diffusion_defaults())

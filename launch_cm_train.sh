@@ -12,10 +12,10 @@ OMPI_MCA_opal_cuda_support=true CUDA_VISIBLE_DEVICES="4,5,6,7" GPUS_PER_NODE=4 \
     --scale_mode progressive \
     --start_scales 2 --end_scales 200 \
     --total_training_steps 100000 \
-    --loss_norm lpips \
+    --loss_norm l2 \
     --lr_anneal_steps 0 \
     --attention_resolutions 32,16,8 \
-    --class_cond True \
+    --class_cond False \
     --use_scale_shift_norm True \
     --dropout 0.0 \
     --teacher_dropout 0.1 \
@@ -33,8 +33,9 @@ OMPI_MCA_opal_cuda_support=true CUDA_VISIBLE_DEVICES="4,5,6,7" GPUS_PER_NODE=4 \
     --weight_schedule uniform \
     --log_interval 100 \
     --save_interval 5000 \
-    --result_dir results/afhq-v2-128-uncond \
-    --data_dir /home/guandao/stargan-v2/afhq-v2-128
+    --result_dir results/tri_planes \
+    --data_dir /home/rlpo/triplane_autodecoder/data/tri_planes \
+    --stats_dir /home/rlpo/triplane_autodecoder/data/planes_triplanes_stats
 
 # # AFHQ-256x256
 # CUDA_VISIBLE_DEVICES=0 GPUS_PER_NODE=1 mpiexec -n 1 python cm_train.py \
