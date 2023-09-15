@@ -47,29 +47,15 @@ def load_data(
         class_names = [bf.basename(path).split("_")[0] for path in all_files]
         sorted_classes = {x: i for i, x in enumerate(sorted(set(class_names)))}
         classes = [sorted_classes[x] for x in class_names]
-    # dataset = ImageDataset(
-    #     image_size,
-    #     all_files,
-    #     classes=classes,
-    #     shard=MPI.COMM_WORLD.Get_rank(),
-    #     num_shards=MPI.COMM_WORLD.Get_size(),
-    #     random_crop=random_crop,
-    #     random_flip=random_flip,
-    # )
-
-    # load triplanes
-    dataset = TriplaneDataset(
+    dataset = ImageDataset(
         image_size,
         all_files,
         classes=classes,
         shard=MPI.COMM_WORLD.Get_rank(),
-        normalize=True,
         num_shards=MPI.COMM_WORLD.Get_size(),
         random_crop=random_crop,
         random_flip=random_flip,
-        stats_dir=stats_dir,
     )
-
 
     if deterministic:
         loader = DataLoader(

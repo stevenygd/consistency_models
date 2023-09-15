@@ -2,7 +2,7 @@
 
 # AFHQ-128x128
 # Class is WRONG! It should be three classes, but now only two: "flickr, pixabay"
-OMPI_MCA_opal_cuda_support=true CUDA_VISIBLE_DEVICES="9" GPUS_PER_NODE=1 \
+OMPI_MCA_opal_cuda_support=true CUDA_VISIBLE_DEVICES="8" GPUS_PER_NODE=1 \
     mpiexec -n 1 python triplane_sample.py \
     --batch_size 2 \
     --training_mode consistency_training \

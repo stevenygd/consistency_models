@@ -3,6 +3,10 @@ import sys
 import cv2
 import numpy as np
 
+def denorm(x):
+    xmax, xmin = x.max(), x.min()
+    return (x - xmin) / (xmax - xmin)
+
 fname = sys.argv[1] # "samples_1000x128x128x3.npz"
 data = np.load(fname)
 path = fname[:-len(".npz")]
